@@ -1,0 +1,5 @@
+transformando o arquivo em um executável 
+        
+        pip install pyinstaller 
+
+        pyinstaller --noconsole --name="Fracionamento"  --add-data="icons8-tesoura-90.ico;." --onefile gui.py
