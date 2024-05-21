@@ -12,6 +12,7 @@ class Application(Funcs):
         self.tela()
         self.frame_da_tela()
         self.widgets_frame()
+        self.menu()
         window.mainloop()
 
     def config_tk(self):
@@ -83,6 +84,12 @@ class Application(Funcs):
                                        command=self.limpa_tela())
         self.bt_limpa_entrada.place(relx=0.60, rely=0.85, relwidth=0.20, relheight=0.10)
 
+    def menu(self):
+        menubar = Menu(self.window)
+        self.window.config(menu=menubar)
+
+        filemenu = Menu(menubar)
+        menubar.add_command(label="Sobre", command=self.sobre_app)
 
 # Executa o loop principal da janela
 Application()

@@ -77,5 +77,28 @@ class Funcs():
         self.c.save()
         os.startfile(self.file_path)
 
+    def sobre_app(self):
+        self.dowloads_path()
+        self.config_page()
 
+        textobject = self.c.beginText()
+        textobject.setTextOrigin(30, 700)
+
+        self.c.setFont ("Times-Roman", 12.0)
+        textobject.setLeading(20)
+        textobject.textLines("""
+                            Esse aplicativo foi desenvolvido com o intuito de facilicar a criação de etiquetas para fracionamento 
+                            de comprimidos em acordo com a resolução da diretoria colegiada - RDC n°80 de 2006.
+                             E a resolução RDC n°67 de 2007 que dispõe sobra Boas Práticas de Manipulação de Preparações Magistrais
+                             e Oficinais para Uso Humano em farmácias.
+                            
+                              """)
+        self.c.drawText(textobject)
+
+        self.c.setFont ("Times-Roman", 10.0)
+        self.c.drawString(300, 100, """Desenvolvido por: Alicia Santos de Lima no ano de 2024.""")
+        
+
+        self.c.save()
+        os.startfile(self.file_path)
         
