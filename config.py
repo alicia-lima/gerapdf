@@ -13,7 +13,7 @@ class Funcs():
         self.validade_entry.delete(0, END)
 
     def variaveis(self):
-        self.nome_med = self.nome_med_entry.get()
+        self.nome_med = self.nome_med_entry.get().title()
         self.mg = self.mg_entry.get()
         self.lote = self.lote_entry.get().upper()
         self.validade = self.validade_entry.get()
