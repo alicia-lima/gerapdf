@@ -6,17 +6,33 @@ import os
 
 
 class Funcs():
+
     def limpa_tela(self):
         self.nome_med_entry.delete(0, END)
         self.mg_entry.delete(0, END)
         self.lote_entry.delete(0, END)
         self.validade_entry.delete(0, END)
+    
+    def validation(self):
+        try: 
+            validade_srt = self.validade_entry.get()
+            validade = datetime.strptime(self.validade_entry.get(), "%m/%y")
+            hoje = datetime.today()
+            if validade.year > hoje.year or (validade.year == hoje.year and validade.month
+                                             >= hoje.month): 
+                return validade_srt
+            else: 
+                self.mensagem_de_fracasso()
+                return None
+        except ValueError:
+            self.mensagem_de_fracasso()
+            return None 
 
     def variaveis(self):
         self.nome_med = self.nome_med_entry.get().title()
         self.mg = self.mg_entry.get()
         self.lote = self.lote_entry.get().upper()
-        self.validade = self.validade_entry.get()
+        self.validade = self.validation()
         self.espaco = '     '
 
     def dowloads_path(self):
@@ -33,49 +49,51 @@ class Funcs():
         self.w, self.h = A4
         self.x_offset = 0
         self.y_offset = 0
-
+    
     def export_to_pdf_and_open(self):
     
-        self.dowloads_path()
-        self.config_page()
-
-        #Sets the number of columns 
-        row_height = (self.h - 2 * self.y_offset)/ 18
-        column_width = (self.w - 2 * self.x_offset)/ 14 
-
-        # Create xlist with x position for the column and  ylist y position for the row
-        xlist = [self.x_offset + i * column_width for i in range(15)]
-        ylist = [self.h - self.y_offset - i * row_height for i in range(19)]
-        
         # Recupera os valores dos widgets de entrada
         self.variaveis()
 
-        # Create the data with the nunber of times the data will be repeat
-        data = [f"""{self.espaco}\n{self.nome_med}\n{self.mg}\n{self.lote}\n Val: {self.validade}\n{self.espaco}"""] * 15 * 19
+        if self.validade is not None: 
+            self.dowloads_path()
+            self.config_page()
 
-        #design the grid 
-        self.c.grid(xlist, ylist)
-        
-        # fill the cell with information 
-        for row in range(19):
-            for col in range(15):
-                x = xlist[col] + column_width / 2 # Calculates cell center position
-                y = ylist[row] + row_height / 2 # Subtract the index from the line to draw from the base upwards
-                
-                text = data[row * 15 + col] # Centerlize the text in the cell and calculate the width of text
-                lines = text.split("\n") # Determine the split of the line 
+            #Sets the number of columns 
+            row_height = (self.h - 2 * self.y_offset)/ 18
+            column_width = (self.w - 2 * self.x_offset)/ 14 
 
-                line_height = 10 # Determine the height between the lines
-                total_text_height = len(lines) * line_height
-                start_y = y - total_text_height / 2 + line_height * (len(lines) - 1) #Calulate the initial position of the design
+            # Create xlist with x position for the column and  ylist y position for the row
+            xlist = [self.x_offset + i * column_width for i in range(15)]
+            ylist = [self.h - self.y_offset - i * row_height for i in range(19)]
+            
+            
+            # Create the data with the nunber of times the data will be repeat
+            data = [f"""{self.espaco}\n{self.nome_med}\n{self.mg}\n{self.lote}\n Val: {self.validade}\n{self.espaco}"""] * 15 * 19
 
-                #Design each text's line from background of the cell
-                for idx, line in enumerate(lines):
-                    line_y = start_y - idx * line_height
-                    text_width = self.c.stringWidth(line, "Times-Roman", 7.0)
-                    self.c.drawString(x - text_width/2, line_y, line)
-        self.c.save()
-        os.startfile(self.file_path)
+            #design the grid 
+            self.c.grid(xlist, ylist)
+            
+            # fill the cell with information 
+            for row in range(19):
+                for col in range(15):
+                    x = xlist[col] + column_width / 2 # Calculates cell center position
+                    y = ylist[row] + row_height / 2 # Subtract the index from the line to draw from the base upwards
+                    
+                    text = data[row * 15 + col] # Centerlize the text in the cell and calculate the width of text
+                    lines = text.split("\n") # Determine the split of the line 
+
+                    line_height = 10 # Determine the height between the lines
+                    total_text_height = len(lines) * line_height
+                    start_y = y - total_text_height / 2 + line_height * (len(lines) - 1) #Calulate the initial position of the design
+
+                    #Design each text's line from background of the cell
+                    for idx, line in enumerate(lines):
+                        line_y = start_y - idx * line_height
+                        text_width = self.c.stringWidth(line, "Times-Roman", 7.0)
+                        self.c.drawString(x - text_width/2, line_y, line)
+            self.c.save()
+            os.startfile(self.file_path)
 
     def sobre_app(self):
         self.dowloads_path()

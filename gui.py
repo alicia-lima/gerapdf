@@ -91,6 +91,15 @@ class Application(Funcs):
         filemenu = Menu(menubar)
         menubar.add_command(label="Sobre", command=self.sobre_app)
 
+    def mensagem_de_fracasso(self):
+        self.lb_men_suc = Label(self.frame, text="Data Invalida", bg=self.fundo_fracasso, fg=self.cor_fonte,
+                                         font=(self.fonte_padrao))
+        self.lb_men_suc.place(relx=0.05, rely=0.01)
+        self.window.after(1000, self.clear_message)
+
+    def clear_message(self):
+        self.lb_men_suc.config(text="", bg=self.fundo_frame)
+
 # Executa o loop principal da janela
 Application()
 
