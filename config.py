@@ -1,5 +1,6 @@
 from reportlab.pdfgen import canvas
-from tkinter import * 
+from tkinter import *
+import tkinter as tk
 from reportlab.lib.pagesizes import A4
 from datetime import datetime
 import os
@@ -8,11 +9,12 @@ import os
 class Funcs():
 
     def limpa_tela(self):
-        self.nome_med_entry.delete(0, END)
-        self.mg_entry.delete(0, END)
-        self.lote_entry.delete(0, END)
-        self.validade_entry.delete(0, END)
     
+        self.nome_med_entry.delete (0, tk.END)
+        self.mg_entry.delete (0, tk.END)
+        self.lote_entry.delete(0, tk.END)
+        self.validade_entry.delete(0, tk.END)
+
     def validation(self):
         try: 
             validade_srt = self.validade_entry.get()
@@ -49,7 +51,7 @@ class Funcs():
         self.w, self.h = A4
         self.x_offset = 0
         self.y_offset = 0
-    
+           
     def export_to_pdf_and_open(self):
     
         # Recupera os valores dos widgets de entrada

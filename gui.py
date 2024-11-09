@@ -81,7 +81,7 @@ class Application(Funcs):
         self.bt_gera_pdf.place(relx=0.20, rely=0.85, relwidth=0.22, relheight=0.10)
 
         self.bt_limpa_entrada = Button(self.frame, text="Limpar", bd=4, bg=self.fundo_botao, fg=self.cor_fonte,  font=(self.fonte_padrao),
-                                       command=self.limpa_tela())
+                                       command=self.limpa_tela)
         self.bt_limpa_entrada.place(relx=0.60, rely=0.85, relwidth=0.22, relheight=0.10)
 
     def menu(self):
@@ -103,3 +103,4 @@ class Application(Funcs):
 # Executa o loop principal da janela
 Application()
 
+# pyinstaller --onefile --windowed gui.py
